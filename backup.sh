@@ -1,5 +1,5 @@
 #!/bin/bash
 
 cd backup
-mongodump --db atx
+mongodump --db saf
 cd ..

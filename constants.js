@@ -12,33 +12,14 @@ const NO_USER_PASS = 'NO_USER_PASS';
 const PORT = 3000;
 const API_GUIDE = {
 	'get': {
-		'blogs': {
-			'/blogs': 'returns number of pages of blogs in system',
-			'/blogs?page=[pageNumber]': 'returns 10 blogs based on the page number starting at 0',
-			'/blogs?slug=[blogSlug]': 'returns a blog based on the slug'
-		},
-		'songs': {
-			'/songs': 'returns list of songs'
-		},
-		'get-pub-key': {
-			'/get-pub-key': 'returns the public key for the server'
+		'stonks': {
+			'/stonks': 'returns the current reported stonk price from all users.'
 		}
 	},
 	'post': {
-		'booking': {
-			'/booking': 'takes in data from booking form and sends off and email, returns with success/fail message'
-		},
-		'blogs': {
-			'/blogs': 'takes in data for a blog post and creates it with a unique slug'
-		},
-		'songs': {
-			'/song': 'posts a song with info passed in through the body'
-		},
-		'login': {
-			'/login': 'takes in json object {\'username\': [username],\'password\': [password]} and returns login token if correct' 
-		},
-		'verify': {
-			'/verify': 'takes in json oject {\'token\':[jwt token],\'key\':[public key]} and returns true if the jwt is correct'
+		'stonks': {
+			'/stonks?sell=true': 'takes in your name and your current stonk price in the body as variables called name and price',
+			'/stonks?buy=true': 'takes in your buy price and ammount you bought in the body in variables called stonksBought and stonksPrice'
 		}
 	}
 };

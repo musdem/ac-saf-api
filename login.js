@@ -6,7 +6,7 @@ const { mongoose, userSchema } = require('./db');
 const { getPublicKey, getPrivateKey, verifyToken, verifyLogin } = require('./security');
 
 function login(req, res) {
-	try {
+	if(req.body.username && req.body.password) {
 		const { username, password } = req.body;
 		const User = mongoose.model('User', userSchema);
 		User.findOne({username}, "password salt", (err, user) => {
@@ -28,7 +28,11 @@ function login(req, res) {
 							} else {
 								res.json({
 									status: 'success',
-									token
+									token,
+									name: user.name,
+									dodoCode: user.dodoCode,
+									priceBought: user.priceBought,
+									turnipsBought: user.turnipsBought
 								});
 							}
 						});
@@ -38,13 +42,13 @@ function login(req, res) {
 				});
 			}
 		});
-	} catch (err) {
+	} else {
 		res.status(500).json({status: constants.NO_USER_PASS});
 	}
 }
 
 function create(req, res) {
-	try {
+	if (req.body.username && req.body.password && req.body.name && req.body.dodoCode) {
 		const { username, password } = req.body;
 		const User = mongoose.model('User', userSchema);
 		const salt = crypto.randomBytes(128).toString('base64');
@@ -53,7 +57,7 @@ function create(req, res) {
 				console.log('scrypt error', err);
 				res.status(500).json({status: 'create error'});
 			} else {
-				User.create({username, password: key, salt}, (err, user) => {
+				User.create({username, password: key, salt, name, dodoCode}, (err, user) => {
 					if (err) {
 						res.status(500).json({'error': err});
 					} else {
@@ -65,13 +69,13 @@ function create(req, res) {
 				});
 			}
 		});
-	} catch (err) {
-		res.status(500).json({'error': 'must include username and password'});
+	} else {
+		res.status(500).json({'error': 'must include username, password, name, and dodoCode'});
 	}
 }
 
 function verify(req, res) {
-	try {
+	if (req.body.token && req.body.key) {
 		const { token, key } = req.body;
 		verifyToken(token, key, (status) => {
 			switch(status) {
@@ -85,7 +89,7 @@ function verify(req, res) {
 					res.send(status);
 			}
 		});
-	} catch (err) {
+	} else {
 		console.log('verify error:', err);
 		res.status(401).json({status: 'authentication required'});
 	}

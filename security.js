@@ -10,7 +10,7 @@ let publicKey = '';
 const User = mongoose.model('User', userSchema);
 
 function SecurityClient() {
-	fs.readFile('./atx', (err, data) => {
+	fs.readFile('./saf', (err, data) => {
 		if (err) {
 			console.log('unable to open private key, exiting', err);
 			process.exit(1);
@@ -19,7 +19,7 @@ function SecurityClient() {
 		}
 	});
 
-	fs.readFile('./atx.pub', (err, data) => {
+	fs.readFile('./saf.pub', (err, data) => {
 		if (err) {
 			console.log('unable to open public key, exiting', err);
 			process.exit(1);

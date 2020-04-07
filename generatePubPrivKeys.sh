@@ -1,4 +1,4 @@
 #!/bin/bash
 
-openssl genrsa -out atx 2048
-openssl rsa -in atx -pubout>>atx.pub
+openssl genrsa -out saf 2048
+openssl rsa -in saf -pubout>>saf.pub

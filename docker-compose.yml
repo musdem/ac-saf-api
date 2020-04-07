@@ -2,7 +2,7 @@ version: "2.1"
 services:
   api:
     build: .
-    working_dir: /opt/aethix-official-api
+    working_dir: /opt/ac-saf-api
     ports:
       - "3000:3000"
     links:
