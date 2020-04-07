@@ -1,0 +1,14 @@
+version: "2.1"
+services:
+  api:
+    build: .
+    working_dir: /opt/aethix-official-api
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+    restart: on-failure
+  mongo:
+    image: mongo
+    ports:
+      - "127.0.0.1:27017:27017"
