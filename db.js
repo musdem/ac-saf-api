@@ -7,7 +7,6 @@ var userSchema = new Schema({
 	password: {},
 	salt: String,
 	name: String,
-	dodoCode: String,
 	priceBought: Number,
 	turnipsBought: Number
 });

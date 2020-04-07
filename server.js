@@ -5,6 +5,7 @@ const cors = require('cors');
 const { mongoose } = require('./db');
 const loginClient = require('./login');
 const { PORT, API_GUIDE } = require('./constants');
+const stonksClient = require('./stonks');
 
 const server = express();
 const apiRouter = express.Router();

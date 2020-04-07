@@ -48,8 +48,8 @@ function login(req, res) {
 }
 
 function create(req, res) {
-	if (req.body.username && req.body.password && req.body.name && req.body.dodoCode) {
-		const { username, password } = req.body;
+	if (req.body.username && req.body.password && req.body.name) {
+		const { username, password, name } = req.body;
 		const User = mongoose.model('User', userSchema);
 		const salt = crypto.randomBytes(128).toString('base64');
 		crypto.scrypt(password, salt, 64, (err, key) => {
@@ -57,7 +57,7 @@ function create(req, res) {
 				console.log('scrypt error', err);
 				res.status(500).json({status: 'create error'});
 			} else {
-				User.create({username, password: key, salt, name, dodoCode}, (err, user) => {
+				User.create({username, password: key, salt, name}, (err, user) => {
 					if (err) {
 						res.status(500).json({'error': err});
 					} else {
