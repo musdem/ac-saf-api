@@ -35,16 +35,17 @@ function postStonks(req, res) {
 						if (req.body.name && req.body.price) {
 							const Stonks = mongoose.model('Stonks', stonkSchema);
 							// TODO need to expire the price every 12 hours.
-							Stonks.create({name: req.body.name, price: req.body.price}, (err, stonk) => {
-								if (err) {
-									res.status(500).json({error: err});
-								} else {
-									res.json({
-										status: 'success',
-										price: stonk.price
-									});
-								}
-							});
+							Stonks.updateOne(
+								{name: req.body.name},
+								{name: req.body.name, price: req.body.price},
+								{upsert: true},
+								(err, stonk) => {
+									if (err) {
+										res.status(500).json({error: err});
+									} else {
+										res.json({status: 'success'});
+									}
+								});
 						} else {
 							req.json({error: 'You must include both your name and the stonk price.'});
 						}
