@@ -4,7 +4,7 @@ const VERIFY_ERROR = 'VERIFY_ERROR';
 const VERIFY_SUCCESS = 'VERIFY_SUCCESS';
 
 // Login constants
-const WRONG_USER_PASS = 'WRONG_USER_PASS';
+const LOGIN_FAILURE = 'Incorrect username or password';
 const LOGIN_ISSUE = 'LOGIN_ISSUE';
 const NO_USER_PASS = 'NO_USER_PASS';
 
@@ -27,7 +27,7 @@ const API_GUIDE = {
 module.exports = {
 	WRONG_KEY,
 	VERIFY_ERROR,
-	WRONG_USER_PASS,
+	LOGIN_FAILURE,
 	LOGIN_ISSUE,
 	NO_USER_PASS,
 	PORT,

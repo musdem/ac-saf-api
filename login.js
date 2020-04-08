@@ -9,12 +9,12 @@ function login(req, res) {
 	if(req.body.username && req.body.password) {
 		const { username, password } = req.body;
 		const User = mongoose.model('User', userSchema);
-		User.findOne({username}, "password salt", (err, user) => {
+		User.findOne({username}, "password salt name priceBought turnipsBought", (err, user) => {
 			if (err) {
 				console.log('db read error', err);
 				res.status(500).json({status: constants.LOGIN_ISSUE});
 			} else if (!user) {
-				res.status(404).json({status: constants.WRONG_USER_PASS});
+				res.status(401).json({status: constants.LOGIN_FAILURE});
 			} else {
 				crypto.scrypt(password, user.salt, 64, (err, key) => {
 					if (err) {
@@ -30,14 +30,13 @@ function login(req, res) {
 									status: 'success',
 									token,
 									name: user.name,
-									dodoCode: user.dodoCode,
 									priceBought: user.priceBought,
 									turnipsBought: user.turnipsBought
 								});
 							}
 						});
 					} else {
-						res.status(404).json({status: constants.WRONG_USER_PASS});
+						res.status(404).json({status: constants.LOGIN_FAILURE});
 					}
 				});
 			}
@@ -63,7 +62,7 @@ function create(req, res) {
 					} else {
 						res.json({
 							status: 'successfully created account',
-							user
+							user: user.name
 						});
 					}
 				});
