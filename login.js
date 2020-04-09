@@ -95,7 +95,7 @@ function verify(req, res) {
 }
 
 function getPubKey(req, res) {
-	res.send(getPublicKey());
+	res.json({key: getPublicKey().toString()});
 }
 
 module.exports = {

@@ -43,18 +43,21 @@ function postStonks(req, res) {
 									if (err) {
 										res.status(500).json({error: err});
 									} else {
-										res.json({status: 'success'});
+										res.json({
+											status: 'success',
+											user: req.body.name
+										});
 									}
 								});
 						} else {
-							req.json({error: 'You must include both your name and the stonk price.'});
+							res.json({error: 'You must include both your name and the stonk price.'});
 						}
 					} else if (req.query.buy) {
 						if (req.body.stonksBought && req.body.stonksPrice) {
 							const User = mongoose.model('User', userSchema);
 							User.findOneAndUpdate(
 								{username: verifyStatus.username},
-								{priceBought: req.body.stonksBought, turnipsBought: req.body.stonksPrice},
+								{priceBought: req.body.stonksPrice, turnipsBought: req.body.stonksBought},
 								(err, user) => {
 									if (err) {
 										res.status(500).json({error: err});
