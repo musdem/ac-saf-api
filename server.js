@@ -42,4 +42,5 @@ process.on('SIGTERM', function() {
 
 server.listen(PORT, () => {
 	console.log(`listening on port ${PORT}`);
+	stonksClient.stonkJobs();
 });

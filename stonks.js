@@ -82,7 +82,7 @@ function postStonks(req, res) {
 	}
 }
 
-function StonksJobs() {
+function stonkJobs() {
 	var job = new CronJob('0 0,12 * * *', () => {
 		const Stonks = mongoose.model('Stonks', stonkSchema);
 		Stonks.updateMany({}, {price: 0});
@@ -90,9 +90,8 @@ function StonksJobs() {
 	job.start();
 }
 
-const stonkJobs = new StonksJobs();
-
 module.exports = {
 	getStonks,
-	postStonks
+	postStonks,
+	stonkJobs
 };
