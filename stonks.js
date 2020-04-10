@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const CronJob = require('cron').CronJob;
 
 const constants = require('./constants');
 const { mongoose, stonkSchema, userSchema } = require('./db');
