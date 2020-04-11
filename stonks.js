@@ -85,7 +85,14 @@ function postStonks(req, res) {
 function stonkJobs() {
 	var job = new CronJob('0 0,12 * * *', () => {
 		const Stonks = mongoose.model('Stonks', stonkSchema);
-		Stonks.updateMany({},{'$set':{price: 0}});
+		Stonks.updateMany({},{"$set":{"price": 0}}, (err, stonks) => {
+			if (err) {
+				console.log('error', err);
+			} else {
+				console.log('successfully updated stonks', stonks);
+			}
+		});
+		console.log('ran cron');
 	}, null, true, 'America/Toronto');
 	job.start();
 }
