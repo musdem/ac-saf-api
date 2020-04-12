@@ -7,7 +7,7 @@ const { verifyToken } = require('./security');
 
 function getStonks(req, res) {
 	const Stonks = mongoose.model('Stonks', stonkSchema);
-	Stonks.find({}, "name price", {}, (err, stonks) => {
+	Stonks.find({}, 'name price', {}, (err, stonks) => {
 		if (err) {
 				res.status(500).json({error:'error'});
 			} else {

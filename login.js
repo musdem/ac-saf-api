@@ -9,7 +9,7 @@ function login(req, res) {
 	if(req.body.username && req.body.password) {
 		const { username, password } = req.body;
 		const User = mongoose.model('User', userSchema);
-		User.findOne({username}, "password salt name priceBought turnipsBought", (err, user) => {
+		User.findOne({username}, "password salt name priceBought turnipsBought fossilsOwned", (err, user) => {
 			if (err) {
 				console.log('db read error', err);
 				res.status(500).json({status: constants.LOGIN_ISSUE});
@@ -21,7 +21,7 @@ function login(req, res) {
 						console.log('scrypt error', err);
 						res.status(500).json({status: 'login issue'});
 					} else if (key.toString('hex') === user.password.toString('hex')) {
-						jwt.sign({username, password: key}, getPrivateKey(), {algorithm: 'RS256'}, (err, token) => {
+						jwt.sign({username, name: user.name}, getPrivateKey(), {algorithm: 'RS256'}, (err, token) => {
 							if (err) {
 								console.log('jwt sign error', err);
 								res.status(500).json({status: constants.LOGIN_ISSUE});
@@ -31,7 +31,8 @@ function login(req, res) {
 									token,
 									name: user.name,
 									priceBought: user.priceBought,
-									turnipsBought: user.turnipsBought
+									turnipsBought: user.turnipsBought,
+									fossilsOwned: user.fossilsOwned
 								});
 							}
 						});

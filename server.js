@@ -6,6 +6,7 @@ const { mongoose } = require('./db');
 const loginClient = require('./login');
 const { PORT, API_GUIDE } = require('./constants');
 const stonksClient = require('./stonks');
+const fossilsClient = require('./fossils');
 
 const server = express();
 const apiRouter = express.Router();
@@ -20,6 +21,10 @@ apiRouter.all('/', (req, res) => {
 apiRouter.get('/stonks', stonksClient.getStonks);
 
 apiRouter.post('/stonks', stonksClient.postStonks);
+
+apiRouter.get('/fossils', fossilsClient.getFossils);
+
+apiRouter.post('/fossils/*', fossilsClient.postFossils);
 
 apiRouter.post('/login', loginClient.login);
 

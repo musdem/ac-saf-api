@@ -8,7 +8,8 @@ var userSchema = new Schema({
 	salt: String,
 	name: String,
 	priceBought: Number,
-	turnipsBought: Number
+	turnipsBought: Number,
+	fossilsOwned: [String]
 });
 
 var stonkSchema = new Schema({
@@ -19,7 +20,7 @@ var stonkSchema = new Schema({
 var fossilSchema = new Schema({
 	name: String,
 	selling: Boolean,
-	item: String,
+	itemId: String,
 	price: Number
 });
 
