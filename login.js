@@ -74,6 +74,39 @@ function create(req, res) {
 	}
 }
 
+function getUser(req, res) {
+	if (req.body.token && req.body.key) {
+		const { token, key } = req.body;
+		verifyToken(token, key, (status) => {
+			switch(status) {
+				case constants.WRONG_KEY:
+					res.status(401).json({status: 'invalid key'});
+					break;
+				case constants.VERIFY_ERROR:
+					res.status(500).json({status: 'verify failure'});
+					break;
+				default:
+					const User = new mongoose.model('User', userSchema);
+					console.log(status);
+					User.findOne({username: status.username}, 'priceBought turnipsBought fossilsOwned', (err, user) => {
+						if (err) {
+							res.status(500).json({error: 'failed to fetch user info'});
+						} else {
+							res.send({
+								priceBought: user.priceBought,
+								turnipsBought: user.turnipsBought,
+								fossilsOwned: user.fossilsOwned
+							});
+						}
+					});
+			}
+		});
+	} else {
+		console.log('verify error:', err);
+		res.status(401).json({status: 'authentication required'});
+	}
+}
+
 function verify(req, res) {
 	if (req.body.token && req.body.key) {
 		const { token, key } = req.body;
@@ -103,5 +136,6 @@ module.exports = {
 	login,
 	create,
 	verify,
-	getPubKey
+	getPubKey,
+	getUser
 };

@@ -32,6 +32,8 @@ apiRouter.post('/create', loginClient.create);
 
 apiRouter.post('/verify', loginClient.verify);
 
+apiRouter.get('/update-info', loginClient.getUser);
+
 apiRouter.get('/get-pub-key', loginClient.getPubKey);
 
 apiRouter.all('/*', (req, res) => {
