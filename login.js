@@ -52,18 +52,26 @@ function create(req, res) {
 		const { username, password, name } = req.body;
 		const User = mongoose.model('User', userSchema);
 		const salt = crypto.randomBytes(128).toString('base64');
-		crypto.scrypt(password, salt, 64, (err, key) => {
+		User.findOne({username}, 'username', (err, user) => {
 			if (err) {
-				console.log('scrypt error', err);
-				res.status(500).json({status: 'create error'});
+				res.status(500).json({error: 'error when checking if userexists, please try again later'});
+			} else if (user) {
+				res.status(400).json({error: 'user already exists, use a different username.'});
 			} else {
-				User.create({username, password: key, salt, name}, (err, user) => {
+				crypto.scrypt(password, salt, 64, (err, key) => {
 					if (err) {
-						res.status(500).json({'error': err});
+						console.log('scrypt error', err);
+						res.status(500).json({status: 'create error'});
 					} else {
-						res.json({
-							status: 'successfully created account',
-							user: user.name
+						User.create({username, password: key, salt, name}, (err, user) => {
+							if (err) {
+								res.status(500).json({'error': err});
+							} else {
+								res.json({
+									status: 'successfully created account',
+									user: user.name
+								});
+							}
 						});
 					}
 				});
