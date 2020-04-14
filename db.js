@@ -19,6 +19,7 @@ var stonkSchema = new Schema({
 
 var fossilSchema = new Schema({
 	name: String,
+	username: String,
 	selling: Boolean,
 	itemId: String,
 	price: Number

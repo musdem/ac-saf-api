@@ -33,12 +33,11 @@ function postStonks(req, res) {
 					break;
 				default:
 					if (req.query.sell) {
-						if (req.body.name && req.body.price) {
+						if (req.body.price) {
 							const Stonks = mongoose.model('Stonks', stonkSchema);
-							// TODO need to expire the price every 12 hours.
 							Stonks.updateOne(
-								{name: req.body.name},
-								{name: req.body.name, price: req.body.price},
+								{username: verifyStatus.username},
+								{name: verifyStatus.name, username: verifyStatus.username, price: req.body.price},
 								{upsert: true},
 								(err, stonk) => {
 									if (err) {

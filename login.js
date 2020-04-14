@@ -95,7 +95,6 @@ function getUser(req, res) {
 					break;
 				default:
 					const User = new mongoose.model('User', userSchema);
-					console.log(status);
 					User.findOne({username: status.username}, 'priceBought turnipsBought fossilsOwned', (err, user) => {
 						if (err) {
 							res.status(500).json({error: 'failed to fetch user info'});

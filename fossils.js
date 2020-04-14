@@ -6,13 +6,14 @@ const { verifyToken } = require('./security');
 
 function getFossils(req, res) {
 	const Fossils = new mongoose.model('Fossils', fossilSchema);
-	Fossils.find({}, 'name selling itemId price', (err, fossils) => {
+	Fossils.find({}, 'name username selling itemId price', (err, fossils) => {
 		if (err) {
 			res.status(500).json({error: 'Failed to fetch fossils for sale.'});
 		} else {
 			res.json(fossils.map(fossil => {
 				return {
 					name: fossil.name,
+					username: fossil.username,
 					selling: fossil.selling,
 					itemId: fossil.itemId,
 					price: fossil.price
@@ -33,6 +34,8 @@ function postFossils(req, res) {
 					res.status(500).json({status: 'verify failure'});
 					break;
 				default:
+					req.body.name = verifyStatus.name;
+					req.body.username = verifyStatus.username;
 					switch (req.params[0]) {
 						case 'sell':
 						case 'buy':
@@ -54,9 +57,10 @@ function postFossils(req, res) {
 
 function postAd(req, res) {
 	const Fossils = new mongoose.model('Fossils', fossilSchema);
-	if (req.body.name && req.body.itemId && req.body.price) {
+	if (req.body.itemId && req.body.price) {
 		const posting = {
 			name: req.body.name,
+			username: req.body.username,
 			selling: req.query[0] === 'sell',
 			itemId: req.body.itemId,
 			price: req.body.price
@@ -67,20 +71,21 @@ function postAd(req, res) {
 			} else {
 				res.json({
 					status: 'Successfully posted fossil ad.',
-					fossil
+					itemId: fossil.itemId
 				});
 			}
 		});
 	} else {
-		res.json({error: 'you must include both your name, itemID, and price.'});
+		res.json({error: 'you must include both the itemID and price.'});
 	}
 }
 
 function deleteAd(req, res) {
 	const Fossils = new mongoose.model('Fossils', fossilSchema);
-	if (req.body.name && req.body.itemId) {
+	if (req.body.itemId) {
 		const posting = {
 			name: req.body.name,
+			username: req.body.username,
 			itemId: req.body.itemId
 		};
 		Fossils.deleteOne(posting, (err) => {
@@ -88,19 +93,20 @@ function deleteAd(req, res) {
 				res.status(500).json({error: 'Error when deleting fossil ad, please try again later.'});
 			} else {
 				res.json({
-					status: 'Successfully deleted fossil ad.'
+					status: 'Successfully deleted fossil ad.',
+					name: req.body.name
 				});
 			}
 		});
 	} else {
-		res.json({error: 'You must include your name and itemId.'});
+		res.json({error: 'You must include the itemId.'});
 	}
 }
 
 function updateOwned(req, res) {
-	if (req.body.itemId) {
+	if (req.body.itemIds) {
 		const User = new mongoose.model('User', userSchema);
-		User.update({name: req.body.name}, {'$push': {fossilsOwned: req.body.itemId}}, (err, user) => {
+		User.update({username: req.body.username}, {'$set': {fossilsOwned: req.body.itemIds}}, (err, user) => {
 			if (err) {
 				res.status(500).json({error: 'Failed to update fossils owned, please try again later.'});
 			} else {
@@ -111,7 +117,7 @@ function updateOwned(req, res) {
 			}
 		});
 	} else {
-		res.json({error: 'You must include your name and itemId.'});
+		res.json({error: 'You must include the itemIds.'});
 	}
 }
 
