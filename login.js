@@ -9,7 +9,7 @@ function login(req, res) {
 	if(req.body.username && req.body.password) {
 		const { username, password } = req.body;
 		const User = mongoose.model('User', userSchema);
-		User.findOne({username}, "password salt name priceBought turnipsBought fossilsOwned", (err, user) => {
+		User.findOne({username}, "password salt name username priceBought turnipsBought fossilsOwned", (err, user) => {
 			if (err) {
 				console.log('db read error', err);
 				res.status(500).json({status: constants.LOGIN_ISSUE});
@@ -30,6 +30,7 @@ function login(req, res) {
 									status: 'success',
 									token,
 									name: user.name,
+									username: user.username,
 									priceBought: user.priceBought,
 									turnipsBought: user.turnipsBought,
 									fossilsOwned: user.fossilsOwned
