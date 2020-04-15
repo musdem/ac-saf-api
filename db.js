@@ -14,6 +14,7 @@ var userSchema = new Schema({
 
 var stonkSchema = new Schema({
 	name: String,
+	username: String,
 	price: Number
 });
 

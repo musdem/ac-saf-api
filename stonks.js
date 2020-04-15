@@ -45,7 +45,7 @@ function postStonks(req, res) {
 									} else {
 										res.json({
 											status: 'success',
-											user: req.body.name
+											user: verifyStatus.name
 										});
 									}
 								});
