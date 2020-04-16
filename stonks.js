@@ -23,8 +23,8 @@ function getStonks(req, res) {
 }
 
 function postStonks(req, res) {
-	if (req.body.token && req.body.key) {
-		verifyToken(req.body.token, req.body.key, (verifyStatus) => {
+	if (req.body.token) {
+		verifyToken(req.body.token, (verifyStatus) => {
 			switch(verifyStatus) {
 				case constants.WRONG_KEY:
 					res.status(401).json({status: 'invalid key'});

@@ -84,9 +84,8 @@ function create(req, res) {
 }
 
 function getUser(req, res) {
-	if (req.body.token && req.body.key) {
-		const { token, key } = req.body;
-		verifyToken(token, key, (status) => {
+	if (req.body.token) {
+		verifyToken(req.body.token, (status) => {
 			switch(status) {
 				case constants.WRONG_KEY:
 					res.status(401).json({status: 'invalid key'});
@@ -118,9 +117,8 @@ function getUser(req, res) {
 }
 
 function verify(req, res) {
-	if (req.body.token && req.body.key) {
-		const { token, key } = req.body;
-		verifyToken(token, key, (status) => {
+	if (req.body.token) {
+		verifyToken(req.body.token, (status) => {
 			switch(status) {
 				case constants.WRONG_KEY:
 					res.status(401).json({status: 'invalid key'});

@@ -29,8 +29,8 @@ function SecurityClient() {
 	});
 }
 
-function verifyToken(token, key, tokenStatus) {
-	jwt.verify(token, key, (err, decoded) => {
+function verifyToken(token, tokenStatus) {
+	jwt.verify(token, publicKey, (err, decoded) => {
 		if (err) {
 			if (err.message.includes('PEM_read_bio_PUBKEY')) {
 				console.log('wrong pubkey');
