@@ -14,6 +14,7 @@ function getStonks(req, res) {
 				res.json(stonks.map(stonk => {
 					return {
 						name: stonk.name,
+						username: stonk.username,
 						price: stonk.price
 					};
 				}));
