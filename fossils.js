@@ -52,6 +52,8 @@ function postFossils(req, res) {
 					}
 			}
 		});
+	} else {
+		res.status(401).json({status: 'Error: must include token and key'});
 	}
 }
 
